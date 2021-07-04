@@ -1,0 +1,135 @@
+﻿
+@using System.Configuration;
+@model List<ETicket.Domain.DomainModels.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="m-3">
+        <a class="btn btn-success" asp-controller="Movies" asp-action="Create">Add Movie</a>
+        <a class="btn btn-success" asp-controller="Movies" asp-action="ExportAllTickets">Export All Tickets</a>
+
+        <p id="datumot"></p>
+    </div>
+
+
+    <div>
+        <h6>Current Date:</h6> @DateTime.Now
+    </div>
+
+    <table>
+        <tr>Export genre  </tr>
+        <tr>
+            <form asp-action="ExportTicketGenre" method="get">
+                <input type="text" name="valueINeed" />
+            </form>
+        </tr>
+    </table>
+
+    <!--<form asp-controller="Movies" asp-action="ExportTicketGnre" method="get">
+
+        <fieldset>
+            Movie Genre <select id="MovieGenre" name="MovieGenre">
+
+                <option value=""></option>
+
+                <option value="0">Action</option>
+
+                <option value="1">Comedy</option>
+
+                <option selected="selected" value="2">Animated</option>
+
+            </select>
+
+            <p><input type="submit" value="Submit" asp-controller="Movies" asp-action="ExportTicketGenre" method="get" /> </p>
+
+        </fieldset>
+
+    </form>-->
+
+
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+
+        var item = Model[i];
+
+        if (i % 3 == 0)
+        {
+
+            @:<div class="row">
+            }
+
+
+            <div class="col-md-3 m-4">
+                <div class="card" style="width: 18rem; height: 40rem">
+                    <img class="card-img-top" src="@item.MovieImage" alt="Movie image" style="height: 70%" />
+                    <div class="card-body">
+                        <h4 class="card-title">@item.MovieName</h4>
+                        <p class="card-text" style="" id="zanr">@item.MovieDescription</p>
+                        <p class="card-text" style="" id="date">@item.Date</p>
+
+                        <h7>Ticket price: @item.MoviePrice</h7>
+                    </div>
+
+                    <div class="card-footer">
+                        <a asp-controller="Movies" asp-action="AddMovieToCard" asp-route-id="@item.Id" class="btn btn-info">Add to Order</a>
+                        <a asp-controller="Movies" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Edit</a>
+                    </div>
+
+                </div>
+            </div>
+
+            if (i % 3 == 2)
+            {
+
+            @:</div>
+        }
+
+
+    }
+
+
+</div>
+
+
+<script>
+    var dateText = document.querySelector("date");
+    var inner = dateText.innerHTML;
+    var dejt = document.getElementById("date");
+
+    const element = document.getElementById("genre");
+    const checkValue = element.options[element.selectedIndex].value;
+    const checkText = element.options[element.selectedIndex].text;
+
+    element.addEventListener("change", (e) => {
+        const value = e.target.value;
+        const text = element.options[element.selectedIndex].text;
+
+        if (value) {
+            document.getElementById("pick").textContent = `Value Selected: ${value}`;
+        } else {
+            document.getElementById("pick").textContent = "";
+        }
+    });
+
+
+    var today = new Date();
+    var today = @DateTime.Now
+
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    document.getElementById("datumot").innerHTML = date;
+
+    if (dejt.getFullYear < today.getFullYear || dejt.getMonth < today.getMonth) {
+        document.getElementById("date").style.background = "red";
+    }
+
+
+</script>
+
+
+

@@ -1,0 +1,53 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@model ETicket.Domain.DomainModels.Order
+
+
+<h1>Order Details</h1>
+
+
+<div class="container">
+    <div cladd="m-3">
+        <a class="btn btn-success">Order For: @Model.User.UserName </a>
+    </div>
+
+    @for (int i = 0; i < Model.Movies.Count(); i++)
+    {
+
+        var item = Model.Movies.ElementAt(i).SelectedMovie;
+
+        if (i % 3 == 0)
+        {
+
+            @:<div class="row">
+            }
+
+
+            <div class="col-md-3 m-4">
+                <div class="card" style="width: 18rem; height: 43rem">
+                    <img class="card-img-top" src="@item.MovieImage" alt="Movie image" style="height: 70%" />
+                    <div class="card-body">
+                        <h4 class="card-title">@item.MovieName</h4>
+                        <p class="card-text" style="">@item.MovieDescription</p>
+
+                        <h6>Ticket price: @item.MoviePrice</h6>
+                    </div>
+
+                </div>
+            </div>
+
+            if (i % 3 == 2)
+            {
+
+            @:</div>
+        }
+
+
+    }
+
+</div>
